@@ -44,7 +44,7 @@
 @@ -37,2 +38,3 @@
 -                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 -                ResultSet results = statement.executeQuery(query);
-+                PreparedStatement statement = connection.prepareStatement(query);
++                PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 +                statement.setString(1, "%" + action + "%");
 +                ResultSet results = statement.executeQuery();
  
@@ -52,14 +52,6 @@
                      results.first();
                      output.append(SqlInjectionLesson8.generateTable(results));
                      return failed(this).feedback("sql-injection.10.entries").output(output.toString()).build();
-@@ -44,0 +46,7 @@
-+                }
-+            } catch (SQLException ignored) {
-+            }
-+        }
-+
-+        return failed(this).feedback("sql-injection.10.no-entries").build();
-+    }
                  } else {
                      if (tableExists(connection)) {
                          return failed(this).feedback("sql-injection.10.entries").output(output.toString()).build();
